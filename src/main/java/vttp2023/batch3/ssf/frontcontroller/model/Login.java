@@ -5,10 +5,11 @@ import java.util.Random;
 
 import jakarta.validation.constraints.Size;
 
-
 public class Login implements Serializable {
+    
     @Size(min=2, message="Your username cannot be less than 2 characters")
     private String username;
+
     @Size(min=2, message="Your password cannot be less than 2 characters")
     private String password;
 
@@ -47,15 +48,14 @@ public class Login implements Serializable {
         this.userResponse = userResponse;
     }
 
-    public static String generateCaptcha() {
+    public static Login generateCaptcha() {
         Random rand = new Random();
         Login login = new Login();
         int captcha1 = rand.nextInt(50);
         int captcha2 = rand.nextInt(50);
-        login.setCaptchaString("What is "+captcha1+"+"+captcha2);
+        login.setCaptchaString("What is "+captcha1+"+"+captcha2+"?");
         login.setCaptchaAnswer(captcha1+captcha2);
-        return login.getCaptchaString();
+        return login;
     }
-
     
 }

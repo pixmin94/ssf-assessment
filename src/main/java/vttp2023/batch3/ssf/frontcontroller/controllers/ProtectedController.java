@@ -11,8 +11,10 @@ public class ProtectedController {
 	// Write a controller to protect resources rooted under /protected
 	@GetMapping(path="/view1")
 	public String getProtected(HttpSession session){
-		// if??
-		session.getAttribute("user");
-		return "view1";
+		if (session.getAttribute("user") != null) {
+			return "view1";
+		} else {
+			return "view0";
+		}
 	}
 }

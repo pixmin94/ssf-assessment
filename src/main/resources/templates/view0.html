@@ -12,7 +12,7 @@
 
 		<h2>Please Login</h2>
 
-		<form method="POST" data-th-action="@{/login}" data-th-object="${login}">
+		<form action="#" method="POST" th:action="@{/login}" th:object="${login}">
 			<table>
 				<tr>
 					<td> 
@@ -23,8 +23,8 @@
 								placeholder="Please type in your username"
 								field="*{username}" />
 								<br/>
-						<!-- <div th:if="${#fields.hasErrors('username')}">
-							<span th:errors="*{username}" th:errorclass="error"></span>
+						<!-- <div th:if="${#fields.hasErrors('login.*')}">
+							<span th:text="${err}" ></span>
 						</div> -->
 					</td>
 				</tr>
@@ -38,20 +38,17 @@
 								field="*{password}" />
 						<br/>
 						<!-- <div th:if="${#fields.hasErrors('password')}">
-							<span th:errors="*{password}" th:errorclass="error"></span>
+							<span th:errors="*{password}"  th:errorclass="error"></span>
 						</div> -->
 					</td>
 				</tr>
-
 				<tr>
 					<td>
-						<div
-            				th:text = "${captcha}" 
-            				th:if = "${captcha != null}"
-        				></div>
-						<input type="text" name="userResponse" field="*{userResponse}" />
+						<div th:if = "${captcha != null}" th:text = "${captcha}"></div>
+						<input th:if = "${captcha != null}" type="text" name="userResponse" field="*{userResponse}" /><br>
 					</td>
-					
+				</tr>
+				<tr>	
 					<td>
 						<button type="submit">Login</button>
 					</td>
