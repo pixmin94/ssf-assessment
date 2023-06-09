@@ -45,14 +45,17 @@ public class FrontController {
 			//return secret page
 			session.setAttribute("user", username); //save user in httpsession to check if logged in later
 			session.removeAttribute("attempts");
-			return "view1";
+			return "protected/view1";
 
 		} else if (session.getAttribute("attempts") == null || (int) session.getAttribute("attempts") < 3){
+			//validate captcha
+			int cc = login.getUserResponse();
+			login.validateCaptcha(login, cc);
+			
 			//populate captcha
-			String captchaString = login.getCaptchaString();
-			int captchaAnswer = login.getCaptchaAnswer();
+			Login capLogin = Login.generateCaptcha();
+			String captchaString = capLogin.getCaptchaString();
 			m.addAttribute("captcha" , captchaString);
-			session.setAttribute("captchaAnswer", captchaAnswer);
 			
 			
 			//set attempts in session
@@ -64,14 +67,12 @@ public class FrontController {
 				session.setAttribute("attempts", attempts+1);
 			}
 			System.out.println(attempts);
-			m.addAttribute(login);
 			return "view0";
 
 		} else {
 			//exceed attempts
 			service.disableUser(username);
 			session.removeAttribute("attempts");
-			m.addAttribute(login);
 			return "view2";
 
 		}

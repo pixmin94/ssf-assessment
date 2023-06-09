@@ -6,7 +6,7 @@ import java.util.Random;
 import jakarta.validation.constraints.Size;
 
 public class Login implements Serializable {
-    
+
     @Size(min=2, message="Your username cannot be less than 2 characters")
     private String username;
 
@@ -56,6 +56,16 @@ public class Login implements Serializable {
         login.setCaptchaString("What is "+captcha1+"+"+captcha2+"?");
         login.setCaptchaAnswer(captcha1+captcha2);
         return login;
+    }
+
+    public boolean validateCaptcha(Login login, int answer) {
+        if (answer == login.getCaptchaAnswer()){
+            return true;
+        } else {
+            return false;
+        }
+
+
     }
     
 }
