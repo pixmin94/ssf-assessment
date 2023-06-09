@@ -23,7 +23,8 @@ public class FrontController {
 
 	// TODO: Task 2, Task 3, Task 4, Task 6
 	@GetMapping(path="/")
-    public String showLandingPage(Model m){
+    public String showLandingPage(Model m, HttpSession session){
+		session.removeAttribute("user");
         return "view0";
     }
 
@@ -42,32 +43,40 @@ public class FrontController {
 
 		if(authBool) {
 			//return secret page
-			session.setAttribute("user", username);
+			session.setAttribute("user", username); //save user in httpsession to check if logged in later
 			session.removeAttribute("attempts");
 			return "view1";
-		} else if ((int) session.getAttribute("attempts") < 4){
+
+		} else if (session.getAttribute("attempts") == null || (int) session.getAttribute("attempts") < 3){
 			//populate captcha
 			String captchaString = login.getCaptchaString();
 			int captchaAnswer = login.getCaptchaAnswer();
 			m.addAttribute("captcha" , captchaString);
 			session.setAttribute("captchaAnswer", captchaAnswer);
 			
+			
 			//set attempts in session
-			int attempts = (int) session.getAttribute("attempts");
-			if(0 == attempts) {
+			int attempts = 0;
+			if (session.getAttribute("attempts") == null) {
 				session.setAttribute("attempts", 1);
 			} else {
+				attempts = (int) session.getAttribute("attempts");
 				session.setAttribute("attempts", attempts+1);
 			}
-
+			System.out.println(attempts);
+			m.addAttribute(login);
 			return "view0";
 
 		} else {
-
 			//exceed attempts
+			service.disableUser(username);
+			session.removeAttribute("attempts");
+			m.addAttribute(login);
 			return "view2";
 
 		}
 
 	}
+
+
 }
