@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+	TODO: Task 1, Task 2, Task 3
+-->
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Login</title>
+	</head>
+	<body>
+
+		<h2>Please Login</h2>
+
+		<form method="POST" data-th-action="@{/login}" data-th-object="${login}">
+			<table>
+				<tr>
+					<td> 
+						<label for="username">Username:</label> 
+					</td>
+					<td>
+						<input type="text" name="username" size="30" 
+								placeholder="Please type in your username"
+								field="*{username}" />
+								<br/>
+						<!-- <div th:if="${#fields.hasErrors('username')}">
+							<span th:errors="*{username}" th:errorclass="error"></span>
+						</div> -->
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="password">Password:</label>
+					</td>
+					<td>
+						<input type="password" name="password" size="30" 
+								placeholder="Please type in your password"
+								field="*{password}" />
+						<br/>
+						<!-- <div th:if="${#fields.hasErrors('password')}">
+							<span th:errors="*{password}" th:errorclass="error"></span>
+						</div> -->
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<div
+            				th:text = "${captcha}" 
+            				th:if = "${captcha != null}"
+        				></div>
+						<input type="text" name="userResponse" field="*{userResponse}" />
+					</td>
+					
+					<td>
+						<button type="submit">Login</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+		
+	</body>
+</html>
